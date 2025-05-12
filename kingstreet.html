@@ -270,16 +270,9 @@
                 console.error('Could not find the additional-info-2 field');
             }
             
-            // STEP 2: Set up form submission (rest of your existing code)
+            // STEP 2: Set up form submission
             // Replace with your actual Supabase function URL
             const API_ENDPOINT = 'https://oqsmnwugbmquikqgypqh.supabase.co/functions/v1/psychfinder-form';
-            
-            // Your existing clinic ID and API key from the database - KEEP EXACT FORMATTING
-            const CLINIC_ID = '1fe7f0ac-3c4b-422a-9279-7f32fa37f06c'; // Do not modify format/case
-            const CLIENT_API_KEY = 'vzj1afC9H1FLblPlMXxU-ypdov1owR-z'; 
-            
-            // Add your Supabase anon key here
-            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9xc21ud3VnYm1xdWlrcWd5cHFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcwMTc1OTUsImV4cCI6MjA2MjU5MzU5NX0.qG71U0_46GdTd_deKzA1b4S3uNojRUDn9ba8UFcusP8';
             
             // Add a success message div before the form
             const successMessage = document.createElement('div');
@@ -338,10 +331,6 @@
             // Override the form submission
             form.addEventListener('submit', async function(e) {
                 e.preventDefault();
-                
-                // Sanity check for clinic ID
-                console.log('Using clinic ID:', CLINIC_ID);
-                console.log('API Key:', CLIENT_API_KEY);
                 
                 // Validate required fields (concerns, onset, symptoms)
                 const concerns = document.getElementById('concerns');
@@ -403,35 +392,20 @@
                     }
                 });
                 
-                // Add the clinic ID to the form data
-                formObject.clinic_id = CLINIC_ID;
-                
-                // Verify the clinic ID format against what we saw in the database
-                if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(CLINIC_ID)) {
-                    console.error('CRITICAL ERROR: Clinic ID is not a valid UUID format!');
-                }
+                // Add the clinic ID to the form data - this is publicly visible information identifying the clinic
+                formObject.clinic_id = '1fe7f0ac-3c4b-422a-9279-7f32fa37f06c';
+                // Add client API key - the Edge Function expects this value
+                formObject.client_api_key = 'vzj1afC9H1FLblPlMXxU-ypdov1owR-z';
                 
                 try {
                     // Send form data to API
-                    const fetchOptions = {
+                    const response = await fetch(API_ENDPOINT, {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                            'X-Client-API-Key': CLIENT_API_KEY
+                            'Content-Type': 'application/json'
                         },
                         body: JSON.stringify(formObject),
-                    };
-                    
-                    // Log the request details for debugging
-                    console.log('Sending request with options:', {
-                        endpoint: API_ENDPOINT,
-                        clinic_id: CLINIC_ID,
-                        body: JSON.parse(fetchOptions.body)
                     });
-                    
-                    // Simply send the request directly - no clinic creation attempt
-                    const response = await fetch(API_ENDPOINT, fetchOptions);
                     
                     const result = await response.json();
                     
@@ -455,13 +429,6 @@
                         if (result && result.error) {
                             // Add the specific error message
                             errorMessage += ': ' + result.error;
-                            
-                            // Add special handling for common errors
-                            if (result.error === 'Invalid clinic ID') {
-                                errorMessage += `\n\nThis means the clinic ID "${CLINIC_ID}" was not found in our database.`;
-                            } else if (result.error === 'Invalid client API key') {
-                                errorMessage += `\n\nThis means the API key provided doesn't match what's in our database.`;
-                            }
                         } else {
                             errorMessage += '. Please try again or contact us directly.';
                         }
@@ -476,29 +443,6 @@
                     // Handle error
                     alert('There was an error submitting the form. Please try again or contact us directly.'); 
                     console.error('Form submission error:', error);
-                }
-            });
-            
-            // Add debug feature - only triggered on keypress, not automatically
-            let debugKeyTimer;
-            document.addEventListener('keydown', function(e) {
-                if (e.shiftKey && e.key === 'D') {
-                    debugKeyTimer = setTimeout(() => {
-                        const debugInfo = {
-                            endpoint: API_ENDPOINT,
-                            clinic_id: CLINIC_ID,
-                            client_api_key: CLIENT_API_KEY,
-                            supabaseKeyProvided: !!SUPABASE_ANON_KEY
-                        };
-                        console.log('Debug Info:', debugInfo);
-                        alert('Debug info logged to console');
-                    }, 3000);
-                }
-            });
-            
-            document.addEventListener('keyup', function(e) {
-                if (e.key === 'D' || !e.shiftKey) {
-                    clearTimeout(debugKeyTimer);
                 }
             });
         });
