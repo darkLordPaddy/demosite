@@ -274,6 +274,10 @@
             // Replace with your actual Supabase function URL
             const API_ENDPOINT = 'https://oqsmnwugbmquikqgypqh.supabase.co/functions/v1/psychfinder-form';
             
+            // Supabase anon key - needed for authorization
+            // This is a public key designed to be visible in client-side code
+            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9xc21ud3VnYm1xdWlrcWd5cHFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcwMTc1OTUsImV4cCI6MjA2MjU5MzU5NX0.qG71U0_46GdTd_deKzA1b4S3uNojRUDn9ba8UFcusP8';
+            
             // Add a success message div before the form
             const successMessage = document.createElement('div');
             successMessage.id = 'form-success';
@@ -402,7 +406,8 @@
                     const response = await fetch(API_ENDPOINT, {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
                         },
                         body: JSON.stringify(formObject),
                     });
@@ -447,6 +452,10 @@
             });
         });
     </script>
+
+
+    
+
     
 
 </body>
