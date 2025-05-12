@@ -275,7 +275,8 @@
             // Replace with your actual Supabase function URL
             const API_ENDPOINT = 'https://oqsmnwugbmquikqgypqh.supabase.co/functions/v1/psychfinder-form';
             
-            // Replace with your clinic's ID and API key (if applicable)
+            // You need to replace this with a valid clinic ID from your database
+            // The error "Invalid clinic ID" means this ID doesn't exist in your clinics table
             const CLINIC_ID = '1fe7f0ac-3c4b-422a-9279-7f32fa37f06c';
             const CLIENT_API_KEY = 'vzj1afC9H1FLblPlMXxU-ypdov1owR-z'; // Optional, leave empty if not using
             
@@ -410,14 +411,17 @@
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${SUPABASE_ANON_KEY}`, // Add Supabase authorization
+                            'X-Client-API-Key': CLIENT_API_KEY // Always include the API key in headers
                         },
                         body: JSON.stringify(formObject),
                     };
                     
-                    // Add API key as header if provided
-                    if (CLIENT_API_KEY) {
-                        fetchOptions.headers['X-Client-API-Key'] = CLIENT_API_KEY;
-                    }
+                    // Log the request details for debugging (will be removed in production)
+                    console.log('Sending request with options:', {
+                        endpoint: API_ENDPOINT,
+                        headers: fetchOptions.headers,
+                        body: JSON.parse(fetchOptions.body)
+                    });
                     
                     const response = await fetch(API_ENDPOINT, fetchOptions);
                     
@@ -459,12 +463,346 @@
                         const debugInfo = {
                             endpoint: API_ENDPOINT,
                             clinic_id: CLINIC_ID,
-                            apiKeyProvided: !!CLIENT_API_KEY,
+                            client_api_key: CLIENT_API_KEY,
                             supabaseKeyProvided: !!SUPABASE_ANON_KEY
                         };
                         console.log('Debug Info:', debugInfo);
                         alert('Debug info logged to console');
                     }, 3000);
+                }
+                
+                // Shift+G to generate a properly formatted UUID and API key
+                if (e.shiftKey && e.key === 'G') {
+                    const generateUUID = () => {
+                        // Standard UUID v4 generation
+                        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                            const r = Math.random() * 16 | 0;
+                            const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                            return v.toString(16);
+                        });
+                    };
+                    
+                    const generateAPIKey = () => {
+                        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+                        let result = '';
+                        for (let i = 0; i < 24; i++) {
+                            result += chars.charAt(Math.floor(Math.random() * chars.length));
+                        }
+                        return result;
+                    };
+                    
+                    const newUUID = generateUUID();
+                    const newAPIKey = generateAPIKey();
+                    
+                    const message = `Generated UUID and API Key for testing:\n\n` +
+                                  `Clinic ID (UUID): ${newUUID}\n\n` +
+                                  `API Key: ${newAPIKey}\n\n` +
+                                  `Use these values to create a new clinic in your database.`;
+                                  
+                    console.log({
+                        clinic_id: newUUID,
+                        api_key: newAPIKey
+                    });
+                    
+                    alert(message);
+                }
+                
+                // Shift+V to verify the clinic ID with a test request
+                if (e.shiftKey && e.key === 'V') {
+                    const verifyClinic = async () => {
+                        try {
+                            console.log('Verifying clinic ID:', CLINIC_ID);
+                            console.log('Using API key:', CLIENT_API_KEY);
+                            
+                            // Create a minimal test payload
+                            const testPayload = {
+                                clinic_id: CLINIC_ID,
+                                email: 'test@example.com',
+                                legal_first_name: 'Test',
+                                surname: 'User',
+                                concerns: 'This is a test request to verify clinic ID',
+                                onset: 'Test onset',
+                                symptoms: 'Test symptoms'
+                            };
+                            
+                            // Make a test request to verify the clinic ID
+                            const response = await fetch(API_ENDPOINT, {
+                                method: 'OPTIONS', // Use OPTIONS to avoid creating actual records
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                                    'X-Client-API-Key': CLIENT_API_KEY
+                                }
+                            });
+                            
+                            if (response.ok) {
+                                alert('CORS check passed. Your API endpoint is accepting requests.');
+                                
+                                // Now try to create a client with Supabase directly
+                                const supabase = createClient(
+                                    'https://oqsmnwugbmquikqgypqh.supabase.co',
+                                    SUPABASE_ANON_KEY
+                                );
+                                
+                                // Check if the clinic exists
+                                const { data, error } = await supabase
+                                    .from('clinics')
+                                    .select('id, name, api_key')
+                                    .eq('id', CLINIC_ID)
+                                    .single();
+                                
+                                if (error) {
+                                    console.error('Error checking clinic:', error);
+                                    alert(`Error checking clinic: ${error.message}\n\nThis suggests your clinic ID is invalid or you don't have permission to access it.`);
+                                } else if (data) {
+                                    console.log('Clinic found:', data);
+                                    const apiKeyMatch = data.api_key === CLIENT_API_KEY;
+                                    alert(`Clinic verified!\n\nName: ${data.name}\nID: ${data.id}\nAPI Key Match: ${apiKeyMatch ? 'YES ✓' : 'NO ✗'}`);
+                                } else {
+                                    alert(`No clinic found with ID: ${CLINIC_ID}\n\nPlease check your clinic ID.`);
+                                }
+                            } else {
+                                const text = await response.text();
+                                console.error('CORS check failed:', text);
+                                alert(`CORS check failed with status ${response.status}. Your API endpoint might not be configured correctly.`);
+                            }
+                        } catch (err) {
+                            console.error('Verification error:', err);
+                            alert('Error verifying clinic: ' + err.message);
+                        }
+                    };
+                    
+                    // Dynamically load Supabase client if needed
+                    if (typeof createClient === 'undefined') {
+                        const script = document.createElement('script');
+                        script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+                        script.onload = () => {
+                            verifyClinic();
+                        };
+                        document.head.appendChild(script);
+                    } else {
+                        verifyClinic();
+                    }
+                }
+                
+                // Shift+T to enter a test clinic ID manually
+                if (e.shiftKey && e.key === 'T') {
+                    const newClinicId = prompt('Enter a clinic ID for testing:', CLINIC_ID);
+                    if (newClinicId && newClinicId.trim() !== '') {
+                        console.log('Changed clinic ID from', CLINIC_ID, 'to', newClinicId);
+                        
+                        // Use this approach to dynamically update the CLINIC_ID value
+                        // This modifies the actual variable rather than just reassigning it
+                        Object.getOwnPropertyDescriptor(window, 'CLINIC_ID') || 
+                            Object.defineProperty(window, 'CLINIC_ID', { 
+                                value: newClinicId, 
+                                writable: true,
+                                configurable: true 
+                            });
+                        
+                        if (window.CLINIC_ID) {
+                            window.CLINIC_ID = newClinicId;
+                        } else {
+                            CLINIC_ID = newClinicId;
+                        }
+                        
+                        alert('Updated clinic ID to: ' + newClinicId);
+                    }
+                }
+                
+                // Shift+L to list available clinics
+                if (e.shiftKey && e.key === 'L') {
+                    const listClinics = async () => {
+                        try {
+                            // Create a supabase client
+                            const supabase = createClient(
+                                'https://oqsmnwugbmquikqgypqh.supabase.co',
+                                SUPABASE_ANON_KEY
+                            );
+                            
+                            // Fetch clinics
+                            const { data, error } = await supabase
+                                .from('clinics')
+                                .select('id, name, email')
+                                .order('name');
+                                
+                            if (error) {
+                                console.error('Error fetching clinics:', error);
+                                alert('Error fetching clinics: ' + error.message);
+                            } else if (data && data.length > 0) {
+                                console.log('Available clinics:', data);
+                                
+                                // Format the clinics list for display
+                                const clinicsList = data.map(clinic => 
+                                    `ID: ${clinic.id}\nName: ${clinic.name}\nEmail: ${clinic.email}`
+                                ).join('\n\n');
+                                
+                                alert(`Available Clinics:\n\n${clinicsList}`);
+                            } else {
+                                alert('No clinics found in the database. Create one with Shift+C.');
+                            }
+                        } catch (err) {
+                            console.error('Error:', err);
+                            alert('Error: ' + err.message);
+                        }
+                    };
+                    
+                    // Dynamically load Supabase client if needed
+                    if (typeof createClient === 'undefined') {
+                        const script = document.createElement('script');
+                        script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+                        script.onload = () => {
+                            listClinics();
+                        };
+                        document.head.appendChild(script);
+                    } else {
+                        listClinics();
+                    }
+                }
+                
+                // Add a feature to create a test clinic (Shift+C)
+                if (e.shiftKey && e.key === 'C') {
+                    const createClinic = async () => {
+                        try {
+                            // Create a supabase client
+                            const supabase = createClient(
+                                'https://oqsmnwugbmquikqgypqh.supabase.co',
+                                SUPABASE_ANON_KEY
+                            );
+                            
+                            // Insert a test clinic (this assumes you're logged in with appropriate permissions)
+                            const { data, error } = await supabase
+                                .from('clinics')
+                                .insert([
+                                    { 
+                                        name: 'King Street Psychology Test', 
+                                        email: 'test@kingstreetpsychology.com',
+                                        phone: '0413 825 238',
+                                        address: 'Suite 207, 1 Erskineville Rd, Newtown 2042',
+                                        website: 'https://www.kingstreetpsychologyclinic.com.au'
+                                    }
+                                ])
+                                .select();
+                                
+                            if (error) {
+                                console.error('Error creating clinic:', error);
+                                alert('Error creating test clinic: ' + error.message);
+                            } else {
+                                console.log('Clinic created:', data);
+                                alert('Test clinic created! ID: ' + data[0].id + '\nPlease update the CLINIC_ID variable in the code with this value.');
+                            }
+                        } catch (err) {
+                            console.error('Error:', err);
+                            alert('Error: ' + err.message);
+                        }
+                    };
+                    
+                    const confirmCreate = confirm('This will attempt to create a test clinic in your database. Continue?');
+                    if (confirmCreate) {
+                        // Dynamically load Supabase client if needed
+                        if (typeof createClient === 'undefined') {
+                            const script = document.createElement('script');
+                            script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+                            script.onload = () => {
+                                createClinic();
+                            };
+                            document.head.appendChild(script);
+                        } else {
+                            createClinic();
+                        }
+                    }
+                }
+                
+                // Shift+F to fix/update the current clinic in the database
+                if (e.shiftKey && e.key === 'F') {
+                    const fixClinic = async () => {
+                        try {
+                            console.log('Checking clinic ID:', CLINIC_ID);
+                            
+                            // Create Supabase client
+                            const supabase = createClient(
+                                'https://oqsmnwugbmquikqgypqh.supabase.co',
+                                SUPABASE_ANON_KEY
+                            );
+                            
+                            // First check if the clinic exists
+                            const { data, error } = await supabase
+                                .from('clinics')
+                                .select('id, name, api_key')
+                                .eq('id', CLINIC_ID)
+                                .single();
+                            
+                            if (error && error.code === 'PGRST116') {
+                                // Clinic not found, offer to create it
+                                const createNew = confirm(`No clinic found with ID: ${CLINIC_ID}\n\nWould you like to create it?`);
+                                
+                                if (createNew) {
+                                    // Create the clinic with the current ID and API key
+                                    const { data: newClinic, error: createError } = await supabase
+                                        .from('clinics')
+                                        .insert([
+                                            {
+                                                id: CLINIC_ID,
+                                                name: 'King Street Psychology',
+                                                email: 'reception@kingstreetpsychology.com',
+                                                phone: '0413 825 238',
+                                                website: 'https://www.kingstreetpsychologyclinic.com.au',
+                                                api_key: CLIENT_API_KEY
+                                            }
+                                        ])
+                                        .select();
+                                    
+                                    if (createError) {
+                                        console.error('Error creating clinic:', createError);
+                                        alert(`Error creating clinic: ${createError.message}`);
+                                    } else {
+                                        console.log('Clinic created successfully:', newClinic);
+                                        alert(`Clinic created successfully!\n\nID: ${newClinic[0].id}\nAPI Key: ${CLIENT_API_KEY}`);
+                                    }
+                                }
+                            } else if (error) {
+                                // Some other error occurred
+                                console.error('Error checking clinic:', error);
+                                alert(`Error checking clinic: ${error.message}`);
+                            } else {
+                                // Clinic exists, offer to update API key if it doesn't match
+                                if (data.api_key !== CLIENT_API_KEY) {
+                                    const updateApiKey = confirm(`Clinic found, but API key doesn't match.\n\nCurrent API key: ${data.api_key || '(none)'}\nForm API key: ${CLIENT_API_KEY}\n\nUpdate to match the form's API key?`);
+                                    
+                                    if (updateApiKey) {
+                                        const { error: updateError } = await supabase
+                                            .from('clinics')
+                                            .update({ api_key: CLIENT_API_KEY })
+                                            .eq('id', CLINIC_ID);
+                                        
+                                        if (updateError) {
+                                            console.error('Error updating API key:', updateError);
+                                            alert(`Error updating API key: ${updateError.message}`);
+                                        } else {
+                                            alert('API key updated successfully!');
+                                        }
+                                    }
+                                } else {
+                                    alert(`Clinic verified and API key matches!\n\nName: ${data.name}\nID: ${data.id}`);
+                                }
+                            }
+                        } catch (err) {
+                            console.error('Fix clinic error:', err);
+                            alert('Error: ' + err.message);
+                        }
+                    };
+                    
+                    // Dynamically load Supabase client if needed
+                    if (typeof createClient === 'undefined') {
+                        const script = document.createElement('script');
+                        script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+                        script.onload = () => {
+                            fixClinic();
+                        };
+                        document.head.appendChild(script);
+                    } else {
+                        fixClinic();
+                    }
                 }
             });
             
