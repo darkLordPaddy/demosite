@@ -279,6 +279,9 @@
             const CLINIC_ID = '1fe7f0ac-3c4b-422a-9279-7f32fa37f06c';
             const CLIENT_API_KEY = 'vzj1afC9H1FLblPlMXxU-ypdov1owR-z'; // Optional, leave empty if not using
             
+            // Add your Supabase anon key here
+            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9xc21ud3VnYm1xdWlrcWd5cHFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI3NjM5NTksImV4cCI6MjAwODMzOTk1OX0.z9fs4V5hPqnkW8FBxGHY6oBHnrT6LgGNPHYuXYOK3XI';
+            
             // Add a success message div before the form
             const successMessage = document.createElement('div');
             successMessage.id = 'form-success';
@@ -406,6 +409,7 @@
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`, // Add Supabase authorization
                         },
                         body: JSON.stringify(formObject),
                     };
@@ -435,6 +439,7 @@
                     } else {
                         // Handle error
                         alert('There was an error submitting the form: ' + (result.error || 'Unknown error'));
+                        console.error('Form submission error response:', result);
                     }
                 } catch (error) {
                     // Hide loading indicator
@@ -443,6 +448,29 @@
                     // Handle error
                     alert('There was an error submitting the form. Please try again or contact us directly.'); 
                     console.error('Form submission error:', error);
+                }
+            });
+            
+            // Add debug feature - hold Shift+D for 3 seconds to show debug info
+            let debugKeyTimer;
+            document.addEventListener('keydown', function(e) {
+                if (e.shiftKey && e.key === 'D') {
+                    debugKeyTimer = setTimeout(() => {
+                        const debugInfo = {
+                            endpoint: API_ENDPOINT,
+                            clinic_id: CLINIC_ID,
+                            apiKeyProvided: !!CLIENT_API_KEY,
+                            supabaseKeyProvided: !!SUPABASE_ANON_KEY
+                        };
+                        console.log('Debug Info:', debugInfo);
+                        alert('Debug info logged to console');
+                    }, 3000);
+                }
+            });
+            
+            document.addEventListener('keyup', function(e) {
+                if (e.key === 'D' || !e.shiftKey) {
+                    clearTimeout(debugKeyTimer);
                 }
             });
         });
