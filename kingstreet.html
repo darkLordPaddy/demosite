@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Client Form | King Street Psychology Clinic</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="kingstreet-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="kingstreet-body">
+    <!-- Header Navigation -->
+    <div class="kingstreet-header">
+        <div class="container">
+            <div class="ks-logo">
+                <a href="index.html">
+                    <img src="https://cdn.prod.website-files.com/63e9c9689b9d021a49f14b6b/65b18c19c6db4c2062a95afb_KS%20logo.png" alt="King Street Psychology Clinic Logo">
+                </a>
+            </div>
+            <header class="ks-navigation">
+                <a href="index.html" class="nav-links">Home</a>
+                <div class="nav-dropdown">
+                    <div class="dropdown-toggle">
+                        <div class="text-block">About</div>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <div class="dropdown-toggle">
+                        <div class="text-block">Services</div>
+                    </div>
+                </div>
+                <a href="#" class="nav-links">Research</a>
+                <a href="#" class="nav-links">Rent a room</a>
+                <a href="#" class="nav-links button current">Book Appointment<br><br>0413 825 238</a>
+            </header>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="ks-section">
+        <div class="ks-container">
+            <div class="ks-title-wrap">
+                <h1 class="ks-title">New Clients</h1>
+                <div class="ks-hero-content">
+                    <p class="ks-purple-text">
+                        <strong>Our psychologists look forward to assisting you.</strong><br><br>
+                        To make an appointment, our friendly reception team will speak with you for 5-10 minutes by phone to take the information we need to match you with the most suitable psychologist.<br><br>
+                        Please call us on 0413 825 238, Monday - Friday, 8am -4pm, or email us on reception@kingstreetpsychology.com.<br><br>
+                        Or complete our <a href="#email-form">contact form</a>.
+                    </p>
+                    <div class="ks-contact-details">
+                        <div class="ks-contact-row">
+                            <img src="https://cdn.prod.website-files.com/63e9c9689b9d021a49f14b6b/63e9c9689b9d020310f14bdd_Phone.png" alt="" class="ks-icon">
+                            <p class="ks-purple-text">
+                                <a href="tel:0413825238"><strong>0413 825 238</strong></a>
+                            </p>
+                        </div>
+                        <div class="ks-contact-row">
+                            <img src="https://cdn.prod.website-files.com/63e9c9689b9d021a49f14b6b/63e9c9689b9d0250e5f14b99_emal-.svg" alt="" class="ks-icon">
+                            <p class="ks-purple-text">
+                                <a href="mailto:reception@kingstreetpsychology.com"><strong>reception@kingstreetpsychology.com</strong></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Form Section -->
+            <div class="ks-container">
+                <div class="ks-title-wrap">
+                    <div class="ks-hero-content">
+                        <h1 class="ks-title"><strong>Contact Form</strong></h1>
+                        <p class="ks-purple-text">
+                            <strong>Please note that in order to offer you an appointment, our friendly reception team will take down your information during a brief phone call. Please be sure to include the days/times our reception team can reach you for 5-10 minutes.</strong>
+                        </p>
+                        <div class="ks-form-wrap">
+                            <div class="ks-form">
+                                <form id="email-form" name="email-form" data-name="Email Form" method="post" class="ks-form-inner">
+                                    <div class="ks-field-wrap half">
+                                        <label for="name-3" class="ks-field-label"><strong>Legal First Name</strong>*</label>
+                                        <input class="ks-field-input" maxlength="256" name="name-3" data-name="Name 3" placeholder="" type="text" id="name-3" required="">
+                                    </div>
+                                    <div class="ks-field-wrap half">
+                                        <label for="Surname-2" class="ks-field-label"><strong>Preferred First Name</strong></label>
+                                        <input class="ks-field-input" maxlength="256" name="Surname-2" data-name="Surname 2" placeholder="" type="text" id="Surname-2">
+                                    </div>
+                                    <div class="ks-field-wrap half">
+                                        <label for="name-2" class="ks-field-label"><strong>Surname</strong>*</label>
+                                        <input class="ks-field-input" maxlength="256" name="name-2" data-name="Name 2" placeholder="" type="text" id="name-2" required="">
+                                    </div>
+                                    <div class="ks-field-wrap half">
+                                        <label for="Email-2" class="ks-field-label">Email address*</label>
+                                        <input class="ks-field-input" maxlength="256" name="Email-2" data-name="Email 2" placeholder="" type="email" id="Email-2" required="">
+                                    </div>
+                                    <div class="ks-field-wrap half">
+                                        <label for="Phone-2" class="ks-field-label">Contact number*</label>
+                                        <input class="ks-field-input" maxlength="256" name="Phone-2" data-name="Phone 2" placeholder="" type="tel" id="Phone-2" required="">
+                                    </div>
+                                    <div class="ks-field-wrap half">
+                                        <label for="Age-2" class="ks-field-label">Age of client being referred</label>
+                                        <input class="ks-field-input" maxlength="256" name="Age-2" data-name="Age 2" placeholder="" type="number" id="Age-2" required="">
+                                    </div>
+                                    <div class="ks-field-wrap half">
+                                        <label for="Preferred-therapist-2" class="ks-field-label"><strong>Preferred days /time for a 5-10min reception call*</strong></label>
+                                        <input class="ks-field-input" maxlength="256" name="Preferred-therapist-2" data-name="Preferred Therapist 2" placeholder="" type="text" id="Preferred-therapist-2" required="">
+                                    </div>
+                                    <div class="ks-field-wrap full">
+                                        <label for="additional-info-2" class="ks-field-label">Please provide any details regarding the issues you would like our assistance with<br></label>
+                                        <textarea id="additional-info-2" name="additional-info-2" maxlength="5000" data-name="Additional Info 2" placeholder="Max 200 words" class="ks-field-input textarea"></textarea>
+                                        <label for="field" class="ks-field-label">This information will be kept strictly confidential and only viewable by our receptionist and your treating psychologist</label>
+                                    </div>
+                                    <div class="ks-cta-wrapper">
+                                        <input type="submit" data-wait="Please wait..." class="ks-cta-button" value="Submit Form">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <p class="ks-purple-text">
+                            <br>Crisis Support<br>‍<br>
+                            <strong>‍This practice operates by appointment only. Unfortunately, we cannot offer emergency or crisis support. If it is an emergency or you are in immediate risk of harm to yourself or others, please call 000. If you need to speak to someone now you can contact a helpline support <a href="https://www.kingstreetpsychologyclinic.com.au/helplines" target="_blank">here</a>.</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="ks-footer">
+        <div class="ks-container">
+            <div class="ks-footer-grid">
+                <div class="ks-footer-content">
+                    <div class="ks-footer-logo">
+                        <a href="#" class="ks-footer-logo-link">
+                            <img src="https://cdn.prod.website-files.com/63e9c9689b9d021a49f14b6b/63e9c9689b9d0276fdf14bb9_KSPC%20Logo%20Suite_KSPC%20Logo%20Horizontal.png" alt="King Street Psychology Clinic Logo" class="ks-footer-logo-img">
+                        </a>
+                    </div>
+                    <div class="ks-footer-menu">
+                        <a href="#" class="ks-footer-link">Meet the team</a>
+                        <a href="#" class="ks-footer-link">Fees and Rebates</a>
+                        <a href="#" class="ks-footer-link">Research</a>
+                        <a href="#" class="ks-footer-link current">Book Appointment</a>
+                    </div>
+                    <div class="ks-contact-grid">
+                        <div class="ks-contact-item">
+                            <a href="tel:0413825238">0413 825 238</a>
+                        </div>
+                        <div class="ks-contact-item">
+                            <a href="mailto:Reception@kingstreetpsychology.com">Reception@kingstreetpsychology.com</a>
+                        </div>
+                        <div class="ks-contact-item">
+                            <a href="#" target="_blank">Suite 207, 1 Erskineville Rd, Newtown 2042</a>
+                        </div>
+                        <div class="ks-contact-item">
+                            <a href="#" target="_blank">Suites 7, 10, 14, 134-140 King St, Newtown 2042</a>
+                        </div>
+                    </div>
+                    <div class="ks-affiliations">
+                        <div class="ks-affiliation-title">
+                            <div class="ks-affiliation-text">Professional memberships, registrations, and affiliations</div>
+                        </div>
+                        <div class="ks-logo-wrap">
+                            <img src="https://cdn.prod.website-files.com/63e9c9689b9d021a49f14b6b/679d563ca99ad769178263ad_APS.png" alt="" class="ks-aff-logo">
+                            <img src="https://cdn.prod.website-files.com/63e9c9689b9d021a49f14b6b/63e9c9689b9d02dd4ff14ba6_acpa-member-logo.png" alt="" class="ks-aff-logo">
+                            <img src="https://cdn.prod.website-files.com/63e9c9689b9d021a49f14b6b/63e9c9689b9d027972f14bb5_AP-Logo-2.png" alt="" class="ks-aff-logo">
+                            <img src="https://cdn.prod.website-files.com/63e9c9689b9d021a49f14b6b/63e9c9689b9d02d8b6f14b9f_gender-centre-sml-logo-site.fw.png" alt="" class="ks-aff-logo">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Form submission handler (captures form submission to your API)
+        document.getElementById('email-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect form data
+            const formData = new FormData(this);
+            const formObject = {};
+            formData.forEach((value, key) => {
+                formObject[key] = value;
+            });
+            
+            // Log the data (replace with your API call)
+            console.log('Form data to be sent to API:', formObject);
+            
+            // Here you would make your API call
+            // Example: 
+            // fetch('your-api-endpoint', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify(formObject),
+            // })
+            // .then(response => response.json())
+            // .then(data => {
+            //     console.log('Success:', data);
+            //     alert('Form submitted successfully!');
+            // })
+            // .catch(error => {
+            //     console.error('Error:', error);
+            //     alert('There was an error submitting the form.');
+            // });
+            
+            // For demo purposes, show success message
+            alert('Form submitted successfully! In a real implementation, this would be sent to your API.');
+        });
+    </script>
+</body>
+</html>

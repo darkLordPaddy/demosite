@@ -1,0 +1,279 @@
+/* King Street Psychology Clinic Styles */
+
+.kingstreet-body {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+.kingstreet-header {
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.ks-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.ks-logo {
+    max-width: 262px;
+}
+
+.ks-logo img {
+    width: 100%;
+    height: auto;
+}
+
+.ks-navigation {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.nav-links {
+    color: #333;
+    text-decoration: none;
+    margin-right: 20px;
+    font-weight: 500;
+}
+
+.nav-links.button {
+    background-color: #7d4c94;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.nav-links.current {
+    color: #7d4c94;
+}
+
+.nav-dropdown {
+    position: relative;
+    margin-right: 20px;
+}
+
+.dropdown-toggle {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.text-block {
+    margin-right: 5px;
+}
+
+/* Main Content */
+.ks-section {
+    padding: 60px 0;
+}
+
+.ks-title-wrap {
+    margin-bottom: 30px;
+}
+
+.ks-title {
+    color: #333;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.ks-hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.ks-purple-text {
+    color: #7d4c94;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.ks-purple-text a {
+    color: #7d4c94;
+    text-decoration: underline;
+}
+
+.ks-contact-details {
+    margin-top: 30px;
+}
+
+.ks-contact-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.ks-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+/* Form Styles */
+.ks-form-wrap {
+    margin: 40px 0;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.ks-form-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.ks-field-wrap {
+    margin-bottom: 20px;
+}
+
+.ks-field-wrap.half {
+    width: calc(50% - 10px);
+}
+
+.ks-field-wrap.full {
+    width: 100%;
+}
+
+.ks-field-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.ks-field-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.ks-field-input.textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+.ks-cta-wrapper {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.ks-cta-button {
+    background-color: #7d4c94;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.ks-cta-button:hover {
+    background-color: #6a3d7e;
+}
+
+/* Footer */
+.ks-footer {
+    background-color: #333;
+    color: white;
+    padding: 60px 0;
+}
+
+.ks-footer-grid {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.ks-footer-content {
+    width: 100%;
+}
+
+.ks-footer-logo {
+    margin-bottom: 30px;
+}
+
+.ks-footer-logo-img {
+    max-width: 200px;
+}
+
+.ks-footer-menu {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.ks-footer-link {
+    color: white;
+    text-decoration: none;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+.ks-contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.ks-contact-item a {
+    color: white;
+    text-decoration: none;
+}
+
+.ks-affiliations {
+    margin-top: 30px;
+}
+
+.ks-affiliation-title {
+    margin-bottom: 15px;
+}
+
+.ks-affiliation-text {
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+.ks-logo-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.ks-aff-logo {
+    height: 40px;
+    margin-right: 15px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .ks-navigation {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .nav-links {
+        margin-bottom: 10px;
+    }
+    
+    .ks-field-wrap.half {
+        width: 100%;
+    }
+}
