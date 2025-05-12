@@ -215,39 +215,193 @@
         </div>
     </footer>
 
+    <!-- // Add this script at the end of the HTML body -->
     <script>
-        // Form submission handler - integration with your API
-        document.getElementById('email-form').addEventListener('submit', function(e) {
-            e.preventDefault();
+        document.addEventListener('DOMContentLoaded', function() {
+            // Find the form element - adjust the selector if needed
+            const form = document.getElementById('email-form');
             
-            // Collect form data
-            const formData = new FormData(this);
-            const formObject = {};
-            formData.forEach((value, key) => {
-                formObject[key] = value;
+            if (!form) {
+                console.error('Could not find the form element');
+                return;
+            }
+            
+            // Replace with your actual Supabase function URL
+            const API_ENDPOINT = 'https://oqsmnwugbmquikqgypqh.supabase.co/functions/v1/psychfinder-form';
+            
+            // Replace with your clinic's ID and API key (if applicable)
+            const CLINIC_ID = '1fe7f0ac-3c4b-422a-9279-7f32fa37f06c';
+            const CLIENT_API_KEY = 'vzj1afC9H1FLblPlMXxU-ypdov1owR-z'; // Optional, leave empty if not using
+            
+            // Add a success message div before the form
+            const successMessage = document.createElement('div');
+            successMessage.id = 'form-success';
+            successMessage.style.cssText = `
+                background-color: #d4edda;
+                color: #155724;
+                padding: 15px;
+                border-radius: 4px;
+                margin-bottom: 20px;
+                display: none;
+            `;
+            successMessage.textContent = 'Your form has been submitted successfully. Our team will be in touch soon.';
+            form.parentNode.insertBefore(successMessage, form);
+            
+            // Add a loading indicator
+            const loadingIndicator = document.createElement('div');
+            loadingIndicator.id = 'loading-indicator';
+            loadingIndicator.style.cssText = `
+                display: none;
+                text-align: center;
+                margin: 20px 0;
+            `;
+            
+            // Style the loading spinner
+            const style = document.createElement('style');
+            style.textContent = `
+                #loading-indicator::after {
+                    content: "";
+                    display: inline-block;
+                    width: 30px;
+                    height: 30px;
+                    border: 4px solid #f3f3f3;
+                    border-top: 4px solid #6d3b90;
+                    border-radius: 50%;
+                    animation: spin 1s linear infinite;
+                }
+                
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Add the loading indicator before the submit button
+            const submitButton = form.querySelector('input[type="submit"]');
+            if (submitButton) {
+                const submitContainer = submitButton.parentNode;
+                submitContainer.parentNode.insertBefore(loadingIndicator, submitContainer);
+            } else {
+                // If submit button not found, add to the end of the form
+                form.appendChild(loadingIndicator);
+            }
+            
+            // Override the form submission
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Validate required fields (concerns, onset, symptoms)
+                const concerns = document.getElementById('concerns');
+                const onset = document.getElementById('onset');
+                const symptoms = document.getElementById('symptoms');
+                
+                if (!concerns || !onset || !symptoms) {
+                    alert('Required assessment fields are missing. Please ensure all required fields are present.');
+                    return;
+                }
+                
+                if (!concerns.value.trim() || !onset.value.trim() || !symptoms.value.trim()) {
+                    alert('Please complete all required assessment fields.');
+                    return;
+                }
+                
+                // Show loading indicator
+                loadingIndicator.style.display = 'block';
+                
+                // Collect form data
+                const formData = new FormData(form);
+                const formObject = {};
+                
+                // Map original form fields to the API expected fields
+                formData.forEach((value, key) => {
+                    switch(key) {
+                        // Map existing form fields to API field names
+                        case 'name-3':
+                            formObject.legal_first_name = value;
+                            break;
+                        case 'Surname-2':
+                            formObject.preferred_first_name = value;
+                            break;
+                        case 'name-2':
+                            formObject.surname = value;
+                            break;
+                        case 'Email-2':
+                            formObject.email = value;
+                            break;
+                        case 'Phone-2':
+                            formObject.phone = value;
+                            break;
+                        case 'Age-2':
+                            formObject.age = value;
+                            break;
+                        case 'Preferred-therapist-2':
+                            formObject.preferred_time = value;
+                            break;
+                        // Added fields
+                        case 'concerns':
+                        case 'onset':
+                        case 'symptoms':
+                        case 'stresses':
+                            formObject[key] = value;
+                            break;
+                        default:
+                            // Include other fields as they are
+                            formObject[key] = value;
+                    }
+                });
+                
+                // Add the clinic ID to the form data
+                formObject.clinic_id = CLINIC_ID;
+                
+                try {
+                    // Send form data to API
+                    const fetchOptions = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formObject),
+                    };
+                    
+                    // Add API key as header if provided
+                    if (CLIENT_API_KEY) {
+                        fetchOptions.headers['X-Client-API-Key'] = CLIENT_API_KEY;
+                    }
+                    
+                    const response = await fetch(API_ENDPOINT, fetchOptions);
+                    
+                    const result = await response.json();
+                    
+                    // Hide loading indicator
+                    loadingIndicator.style.display = 'none';
+                    
+                    if (response.ok) {
+                        // Show success message
+                        form.reset();
+                        successMessage.style.display = 'block';
+                        successMessage.scrollIntoView({ behavior: 'smooth' });
+                        
+                        // Hide success message after some time
+                        setTimeout(() => {
+                            successMessage.style.display = 'none';
+                        }, 10000);
+                    } else {
+                        // Handle error
+                        alert('There was an error submitting the form: ' + (result.error || 'Unknown error'));
+                    }
+                } catch (error) {
+                    // Hide loading indicator
+                    loadingIndicator.style.display = 'none';
+                    
+                    // Handle error
+                    alert('There was an error submitting the form. Please try again or contact us directly.');
+                    console.error('Form submission error:', error);
+                }
             });
-            
-            console.log('Form data to be sent to API:', formObject);
-            
-            // Here you would make your API call
-            // fetch('your-api-endpoint', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify(formObject),
-            // })
-            
-            // For demo, show success message
-            alert('Form submitted successfully! This data would be sent to your API in a production environment.');
-        });
-
-        // Mobile navigation toggle functionality
-        document.querySelector('.menu-button').addEventListener('click', function() {
-            const navMenu = document.querySelector('.nav-menu-mobile');
-            navMenu.classList.toggle('show-mobile-menu');
-            this.classList.toggle('menu-open');
         });
     </script>
+    
+
 </body>
 </html>
