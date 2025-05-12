@@ -1,279 +1,597 @@
-/* King Street Psychology Clinic Styles */
+/* King Street Psychology Clinic Styles - Improved version */
 
-.kingstreet-body {
-    font-family: 'Roboto', sans-serif;
-    color: #333;
-    background-color: #f8f9fa;
+/* Base & Reset */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
     line-height: 1.6;
-}
-
-.kingstreet-header {
+    color: #333;
     background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 20px 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-.ks-container {
+img {
+    max-width: 100%;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+p {
+    margin-bottom: 20px;
+}
+
+strong, .bold-text {
+    font-weight: 700;
+}
+
+/* Layout */
+.container {
     width: 90%;
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
 }
 
-.ks-logo {
+/* Mobile Navigation */
+.mobile-navigation {
+    display: none;
+}
+
+.navbar-mobile {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px 0;
+    position: relative;
+}
+
+.container-mobile {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mobile-logo {
+    width: 120px;
+    height: auto;
+}
+
+.nav-menu-mobile {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    z-index: 1000;
+}
+
+.nav-menu-mobile.show-mobile-menu {
+    display: flex;
+}
+
+.nav-link {
+    color: #333;
+    padding: 10px 0;
+    display: block;
+    font-weight: 500;
+}
+
+.nav-link.active {
+    color: #7d4c94;
+}
+
+.nav-dropdown-mobile {
+    margin: 10px 0;
+}
+
+.dropdown-toggle-mobile {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.menu-button {
+    display: flex;
+    width: 36px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.menu-icon {
+    width: 24px;
+    height: 2px;
+    background-color: #333;
+    position: relative;
+}
+
+.menu-icon:before,
+.menu-icon:after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 2px;
+    background-color: #333;
+    left: 0;
+}
+
+.menu-icon:before {
+    top: -6px;
+}
+
+.menu-icon:after {
+    bottom: -6px;
+}
+
+.menu-button.menu-open .menu-icon {
+    background-color: transparent;
+}
+
+.menu-button.menu-open .menu-icon:before {
+    transform: rotate(45deg);
+    top: 0;
+}
+
+.menu-button.menu-open .menu-icon:after {
+    transform: rotate(-45deg);
+    bottom: 0;
+}
+
+/* Desktop Navigation */
+.navigation-block {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px 0;
+    position: relative;
+}
+
+.navigation-inner {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-link {
+    display: inline-block;
     max-width: 262px;
 }
 
-.ks-logo img {
+.logo-image {
     width: 100%;
     height: auto;
 }
 
-.ks-navigation {
+.header-navigation {
     display: flex;
     align-items: center;
     margin-top: 20px;
 }
 
-.nav-links {
+.navigation-link {
+    margin-right: 25px;
     color: #333;
-    text-decoration: none;
-    margin-right: 20px;
     font-weight: 500;
+    position: relative;
 }
 
-.nav-links.button {
+.navigation-link.button {
     background-color: #7d4c94;
     color: white;
-    padding: 10px 15px;
+    padding: 15px 20px;
     border-radius: 4px;
     text-align: center;
+    line-height: 1.3;
 }
 
-.nav-links.current {
+.navigation-link.active {
     color: #7d4c94;
 }
 
 .nav-dropdown {
     position: relative;
-    margin-right: 20px;
+    margin-right: 25px;
 }
 
 .dropdown-toggle {
-    cursor: pointer;
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
-.text-block {
+.dropdown-icon {
+    width: 10px;
+    height: 10px;
     margin-right: 5px;
+    position: relative;
 }
 
-/* Main Content */
-.ks-section {
+.dropdown-icon:before,
+.dropdown-icon:after {
+    content: '';
+    position: absolute;
+    background-color: #333;
+    width: 7px;
+    height: 2px;
+    top: 4px;
+}
+
+.dropdown-icon:before {
+    transform: rotate(45deg);
+    left: 0;
+}
+
+.dropdown-icon:after {
+    transform: rotate(-45deg);
+    left: 4px;
+}
+
+.dropdown-text {
+    font-weight: 500;
+}
+
+.dropdown-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+    min-width: 200px;
+    z-index: 100;
+}
+
+.nav-dropdown:hover .dropdown-list {
+    display: block;
+}
+
+.dropdown-nav {
+    display: block;
+    padding: 8px 15px;
+    color: #333;
+    font-size: 0.9em;
+}
+
+.dropdown-nav:hover {
+    background-color: #f5f5f5;
+}
+
+/* Hero Section */
+.section {
     padding: 60px 0;
 }
 
-.ks-title-wrap {
-    margin-bottom: 30px;
+.hero-section {
+    background-color: #fff;
 }
 
-.ks-title {
-    color: #333;
+.hero-title-wrap {
+    margin-bottom: 40px;
+}
+
+.title {
     font-size: 2.5rem;
-    margin-bottom: 20px;
+    color: #333;
+    margin-bottom: 25px;
 }
 
-.ks-hero-content {
+.hero-content {
     max-width: 800px;
     margin: 0 auto;
 }
 
-.ks-purple-text {
-    color: #7d4c94;
+.publication-title {
+    font-size: 1rem;
+    line-height: 1.8;
     margin-bottom: 20px;
-    line-height: 1.6;
 }
 
-.ks-purple-text a {
+.publication-title.purple {
+    color: #7d4c94;
+}
+
+.publication-title.purple.contact-info {
+    margin-bottom: 0;
+}
+
+.purple-link {
     color: #7d4c94;
     text-decoration: underline;
 }
 
-.ks-contact-details {
+.contact-details-wrap {
     margin-top: 30px;
 }
 
-.ks-contact-row {
+.contact-row {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
 }
 
-.ks-icon {
+.location-icon {
     width: 24px;
     height: 24px;
-    margin-right: 10px;
+    margin-right: 15px;
+}
+
+.contact-link {
+    color: #7d4c94;
 }
 
 /* Form Styles */
-.ks-form-wrap {
+.newclient-form-wrap {
     margin: 40px 0;
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 30px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
-.ks-form-inner {
+.newclient-form {
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    background-color: white;
+}
+
+.newclient-form-inner {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    margin: -10px;
 }
 
-.ks-field-wrap {
-    margin-bottom: 20px;
+.field-wrap {
+    padding: 10px;
+    margin-bottom: 15px;
+    position: relative;
 }
 
-.ks-field-wrap.half {
-    width: calc(50% - 10px);
+.field-wrap.half {
+    width: 50%;
 }
 
-.ks-field-wrap.full {
+.field-wrap.full {
     width: 100%;
 }
 
-.ks-field-label {
+.field-label {
     display: block;
     margin-bottom: 8px;
     font-size: 0.9rem;
-    color: #666;
+    color: #555;
 }
 
-.ks-field-input {
+.field-label-note {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: #777;
+}
+
+.field-input {
     width: 100%;
-    padding: 12px;
+    padding: 12px 15px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 1rem;
+    transition: border-color 0.3s;
 }
 
-.ks-field-input.textarea {
-    height: 150px;
+.field-input:focus {
+    border-color: #7d4c94;
+    outline: none;
+}
+
+.field-input.textarea {
+    min-height: 150px;
     resize: vertical;
 }
 
-.ks-cta-wrapper {
+.cta-wrapper {
     width: 100%;
-    margin-top: 20px;
+    padding: 10px;
+    margin-top: 10px;
 }
 
-.ks-cta-button {
+.hero-cta {
     background-color: #7d4c94;
     color: white;
     border: none;
-    padding: 12px 30px;
+    padding: 15px 30px;
     border-radius: 4px;
     font-size: 1rem;
+    font-weight: 500;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
-.ks-cta-button:hover {
+.hero-cta:hover {
     background-color: #6a3d7e;
 }
 
 /* Footer */
-.ks-footer {
+.footer {
     background-color: #333;
     color: white;
-    padding: 60px 0;
+    padding: 60px 0 40px;
 }
 
-.ks-footer-grid {
+.footer-grid {
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
 }
 
-.ks-footer-content {
+.footer-content {
     width: 100%;
 }
 
-.ks-footer-logo {
+.footer-logowrapper {
     margin-bottom: 30px;
 }
 
-.ks-footer-logo-img {
+.navigation-logoblock {
+    display: inline-block;
+}
+
+.footer-logo {
     max-width: 200px;
 }
 
-.ks-footer-menu {
+.footer-menuwrap {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 30px;
 }
 
-.ks-footer-link {
+.footer-link {
     color: white;
-    text-decoration: none;
-    margin-right: 20px;
+    margin-right: 25px;
     margin-bottom: 10px;
 }
 
-.ks-contact-grid {
+.footer-link.active {
+    color: #ddd;
+}
+
+.footer-contact-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 15px;
     margin-bottom: 30px;
 }
 
-.ks-contact-item a {
+.footer-contact-item {
+    margin-bottom: 10px;
+}
+
+.footer-contact-link {
     color: white;
-    text-decoration: none;
 }
 
-.ks-affiliations {
-    margin-top: 30px;
+.footer-affiliation-wrap {
+    margin-top: 40px;
 }
 
-.ks-affiliation-title {
+.footer-aff-title-block {
+    margin-bottom: 20px;
+}
+
+.footer-aff-title {
+    font-size: 0.9rem;
+    color: #aaa;
+}
+
+.aff-logowrap {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.aff-logo {
+    height: 45px;
+    margin-right: 25px;
     margin-bottom: 15px;
 }
 
-.ks-affiliation-text {
-    font-size: 0.9rem;
-    color: #ccc;
-}
-
-.ks-logo-wrap {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.ks-aff-logo {
-    height: 40px;
-    margin-right: 15px;
-}
-
-/* Responsive styles */
-@media (max-width: 768px) {
-    .ks-navigation {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .nav-links {
-        margin-bottom: 10px;
-    }
-    
-    .ks-field-wrap.half {
+/* Media Queries */
+@media screen and (max-width: 991px) {
+    .field-wrap.half {
         width: 100%;
+    }
+
+    .navigation-inner {
+        align-items: center;
+    }
+
+    .header-navigation {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .navigation-link,
+    .nav-dropdown {
+        margin: 10px 15px;
+    }
+
+    .navigation-link.button {
+        margin-top: 20px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .mobile-navigation {
+        display: block;
+    }
+
+    .navigation-block {
+        display: none;
+    }
+
+    .title {
+        font-size: 2rem;
+    }
+
+    .footer-menuwrap {
+        flex-direction: column;
+    }
+
+    .footer-link {
+        margin-bottom: 15px;
+    }
+
+    .aff-logo {
+        height: 35px;
+        margin-right: 15px;
+    }
+}
+
+@media screen and (max-width: 479px) {
+    .section {
+        padding: 40px 0;
+    }
+
+    .title {
+        font-size: 1.8rem;
+    }
+
+    .hero-content {
+        text-align: center;
+    }
+
+    .contact-row {
+        justify-content: center;
+    }
+
+    .footer-contact-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .aff-logowrap {
+        justify-content: center;
     }
 }
