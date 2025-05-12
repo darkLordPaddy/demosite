@@ -215,7 +215,8 @@
         </div>
     </footer>
 
-    <!-- // Add this script at the end of the HTML body -->
+    
+    <!-- Add this script at the end of the HTML body -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Find the form element - adjust the selector if needed
@@ -226,6 +227,51 @@
                 return;
             }
             
+            // STEP 1: Replace the additional-info-2 field with our 4 psychology questions
+            const additionalInfoField = document.getElementById('additional-info-2');
+            if (additionalInfoField) {
+                // Find the parent wrapper
+                const fieldWrap = additionalInfoField.closest('.field-wrap');
+                
+                if (fieldWrap) {
+                    // Create the HTML for our four fields
+                    const psychologyFieldsHTML = `
+                        <div class="field-wrap full">
+                            <label for="concerns" class="field-label"><strong>What are your main concerns or difficulties that have led you to seek help?</strong>*</label>
+                            <textarea id="concerns" name="concerns" maxlength="5000" data-name="Concerns" placeholder="Please describe what is troubling you" class="field-input textarea" required></textarea>
+                        </div>
+                        
+                        <div class="field-wrap full">
+                            <label for="onset" class="field-label"><strong>When did these difficulties begin?</strong>*</label>
+                            <textarea id="onset" name="onset" maxlength="5000" data-name="Onset" placeholder="Please describe when these issues started and any significant events related to their onset" class="field-input textarea" required></textarea>
+                        </div>
+                        
+                        <div class="field-wrap full">
+                            <label for="symptoms" class="field-label"><strong>What symptoms or changes have you noticed?</strong>*</label>
+                            <textarea id="symptoms" name="symptoms" maxlength="5000" data-name="Symptoms" placeholder="Please describe any changes in your thoughts, feelings, behaviors, or physical sensations" class="field-input textarea" required></textarea>
+                        </div>
+                        
+                        <div class="field-wrap full">
+                            <label for="stresses" class="field-label"><strong>Are there any current stresses or life changes that might be contributing to these difficulties?</strong></label>
+                            <textarea id="stresses" name="stresses" maxlength="5000" data-name="Stresses" placeholder="Please describe any relevant life circumstances (optional)" class="field-input textarea"></textarea>
+                        </div>
+                        
+                        <div class="field-wrap full">
+                            <label for="field" class="field-label-note">This information will be kept strictly confidential and only viewable by our receptionist and your treating psychologist</label>
+                        </div>
+                    `;
+                    
+                    // Replace the field wrap with our new fields
+                    fieldWrap.insertAdjacentHTML('afterend', psychologyFieldsHTML);
+                    fieldWrap.remove(); // Remove the original field
+                } else {
+                    console.error('Could not find the field wrapper for additional-info-2');
+                }
+            } else {
+                console.error('Could not find the additional-info-2 field');
+            }
+            
+            // STEP 2: Set up form submission (rest of your existing code)
             // Replace with your actual Supabase function URL
             const API_ENDPOINT = 'https://oqsmnwugbmquikqgypqh.supabase.co/functions/v1/psychfinder-form';
             
