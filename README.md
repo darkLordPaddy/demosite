@@ -1,66 +1,61 @@
 # Psychfinder Demo Website
 
-This is a placeholder website for Psychfinder Pty Ltd, designed to test widget deployments and serve as a demo site connected to a GoDaddy domain via GitHub.
+This is a placeholder website for Psychfinder Pty Ltd, designed to test widget deployments and serve as a demo site.
 
-## Files
+## Deploying with Netlify (Recommended for POST Requests)
 
-- `index.html` - Main HTML page
-- `styles.css` - CSS styles for the website
-- `placeholder-logo.svg` - Placeholder logo for Psychfinder
+### Step 1: Push your code to GitHub
 
-## Connecting to GoDaddy Domain via GitHub
+1. Create a new GitHub repository
+2. Push this code to the GitHub repository
 
-### Step 1: Set up GitHub Pages
+### Step 2: Set up Netlify
 
-1. Push this code to a GitHub repository
-2. Go to the repository settings > Pages
-3. Under "Source", select the branch you want to deploy (usually "main" or "master")
-4. Click Save
+1. Create a free account on [Netlify](https://www.netlify.com/)
+2. Click "New site from Git"
+3. Connect your GitHub account and select the repository
+4. Use the following build settings:
+   - Build command: (leave blank)
+   - Publish directory: `.` (just a dot)
+5. Click "Deploy site"
 
-GitHub will provide you with a URL where your site is published (usually `https://username.github.io/repository-name/`).
+Netlify will provide you with a temporary domain (like `your-site-name.netlify.app`).
 
-### Step 2: Configure GoDaddy Domain
+### Step 3: Configure Custom Domain on Netlify
+
+1. Go to your Netlify site dashboard
+2. Click on "Domain settings" or "Domain management"
+3. Click "Add custom domain"
+4. Enter your domain name (e.g., `www.psychfinder.com.au`)
+5. Follow Netlify's instructions to verify domain ownership
+
+### Step 4: Update DNS on GoDaddy
 
 1. Log in to your GoDaddy account
 2. Go to your Domain settings
 3. Find "DNS Management" or "Manage DNS" for your domain
-4. You have two options:
+4. Add/update the following records:
 
-#### Option A: Using an A Record (Recommended)
+For the root domain (psychfinder.com.au):
+- Add CNAME or ALIAS record pointing to your Netlify site URL
+  OR
+- Add the following A records (Netlify's load balancer IPs):
+  - Type: A, Name: @, Value: 75.2.60.5, TTL: 600 seconds
+  - Type: A, Name: @, Value: 76.76.21.21, TTL: 600 seconds
 
-Add the following A records to point to GitHub Pages servers:
-- Type: A, Name: @, Value: 185.199.108.153, TTL: 600 seconds
-- Type: A, Name: @, Value: 185.199.109.153, TTL: 600 seconds
-- Type: A, Name: @, Value: 185.199.110.153, TTL: 600 seconds
-- Type: A, Name: @, Value: 185.199.111.153, TTL: 600 seconds
+For the www subdomain:
+- Type: CNAME, Name: www, Value: your-site-name.netlify.app, TTL: 600 seconds
 
-For the www subdomain, add a CNAME record:
-- Type: CNAME, Name: www, Value: username.github.io, TTL: 600 seconds
+### Step 5: Wait for DNS Propagation and Enable HTTPS
 
-#### Option B: Using Domain Forwarding
+1. Wait for DNS changes to propagate (up to 48 hours)
+2. Netlify will automatically provision an SSL certificate for HTTPS
 
-1. In GoDaddy, find the "Forwarding" section for your domain
-2. Set up forwarding to your GitHub Pages URL
-3. Choose whether to use masking (URL doesn't change) or redirecting (URL changes to show GitHub)
+## Testing Your Supabase Functions
 
-### Step 3: Configure GitHub Repository
-
-1. Create a file named `CNAME` in the root of your repository
-2. Add your domain name (e.g., `psychfinder.com`) to this file
-3. Commit and push this change
-
-### Step 4: Verify and Secure
-
-1. In your GitHub repository settings > Pages, you should see your custom domain listed
-2. Check the "Enforce HTTPS" option to secure your site
-
-Note: DNS changes can take up to 48 hours to propagate globally.
-
-## Using This Demo Site for Widget Testing
-
-Once your site is connected, you can use it to test widget deployments by adding your widget code to the site. The widgets section already has placeholder spots for showcasing different widgets.
+Once deployed, your site will be able to make POST requests to your Supabase functions. The `netlify.toml` file includes headers configuration that allows cross-origin requests.
 
 ## Contact
 
 Psychfinder Pty Ltd
-Email: info@psychfinder.com 
+Email: support@psychfinder.com.au 

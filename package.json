@@ -1,0 +1,21 @@
+{
+  "name": "psychfinder-demo",
+  "version": "1.0.0",
+  "description": "Demo site for Psychfinder Pty Ltd",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"No tests specified\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/psychfinder-demo.git"
+  },
+  "keywords": [
+    "psychology",
+    "demo",
+    "widget"
+  ],
+  "author": "Psychfinder Pty Ltd",
+  "license": "UNLICENSED",
+  "private": true
+} 
